@@ -42,3 +42,8 @@ Route::get('/laporan/bulanan', function () {
 Route::get('/transaksi', function () {
     return view('transaksi.index');
 });
+
+// Profil
+Route::get('/profil', function () {
+    return view('profil');
+});
