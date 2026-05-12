@@ -17,26 +17,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // ========== USERS ==========
+        // ========== USER (1 akun untuk semua) ==========
         User::create([
-            'name' => 'Admin POS',
-            'email' => 'admin@pos.com',
+            'name' => 'Admin Kios Lilo',
+            'email' => 'admin@kioslilo.com',
             'password' => bcrypt('password'),
             'role' => 'admin',
-        ]);
-
-        User::create([
-            'name' => 'Kasir 1',
-            'email' => 'kasir1@pos.com',
-            'password' => bcrypt('password'),
-            'role' => 'kasir',
-        ]);
-
-        User::create([
-            'name' => 'Kasir 2',
-            'email' => 'kasir2@pos.com',
-            'password' => bcrypt('password'),
-            'role' => 'kasir',
         ]);
 
         // ========== CATEGORIES ==========
@@ -170,7 +156,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'Pasta Gigi Pepsodent',
             'category_id' => $kebutuhanHarian->id,
             'price' => 8000,
-            'stock' => 3, // stok menipis untuk testing
+            'stock' => 3,
             'barcode' => '8993456789014',
         ]);
 
@@ -195,7 +181,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'Mie Sedaap Goreng',
             'category_id' => $mieInstan->id,
             'price' => 3500,
-            'stock' => 2, // stok menipis untuk testing
+            'stock' => 2,
             'barcode' => '8994567890125',
         ]);
     }

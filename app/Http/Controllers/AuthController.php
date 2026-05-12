@@ -35,15 +35,8 @@ class AuthController extends Controller
         if (Auth::attempt($credentials, $request->boolean('remember'))) {
             $request->session()->regenerate();
 
-            // Redirect sesuai role
-            $user = Auth::user();
-            if ($user->isAdmin()) {
-                return redirect()->intended('/dashboard')
-                    ->with('success', 'Selamat datang, ' . $user->name . '!');
-            }
-
-            return redirect()->intended('/kasir')
-                ->with('success', 'Selamat datang, ' . $user->name . '!');
+            return redirect()->intended('/dashboard')
+                ->with('success', 'Selamat datang, ' . Auth::user()->name . '!');
         }
 
         return back()->withErrors([

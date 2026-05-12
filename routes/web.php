@@ -26,66 +26,54 @@ Route::post('/logout', [AuthController::class, 'logout'])
 
 /*
 |--------------------------------------------------------------------------
-| Protected Routes (Authenticated)
+| Protected Routes (All Authenticated Users)
 |--------------------------------------------------------------------------
 */
 Route::middleware('auth')->group(function () {
 
     // Redirect root to dashboard
     Route::get('/', function () {
-        $user = auth()->user();
-        return redirect($user->isAdmin() ? '/dashboard' : '/kasir');
+        return redirect('/dashboard');
     });
 
-    /*
-    |----------------------------------------------------------------------
-    | Admin Only Routes
-    |----------------------------------------------------------------------
-    */
-    Route::middleware('role:admin')->group(function () {
-        Route::get('/dashboard', function () {
-            return view('dashboard');
-        })->name('dashboard');
+    // Dashboard
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
 
-        // Master Data
-        Route::get('/produk', function () {
-            return view('produk.index');
-        })->name('produk.index');
+    // Kasir / POS
+    Route::get('/kasir', function () {
+        return view('kasir');
+    })->name('kasir');
 
-        Route::get('/kategori', function () {
-            return view('kategori.index');
-        })->name('kategori.index');
+    // Master Data
+    Route::get('/produk', function () {
+        return view('produk.index');
+    })->name('produk.index');
 
-        Route::get('/stok', function () {
-            return view('stok.index');
-        })->name('stok.index');
+    Route::get('/kategori', function () {
+        return view('kategori.index');
+    })->name('kategori.index');
 
-        // Laporan
-        Route::get('/laporan/harian', function () {
-            return view('laporan.harian');
-        })->name('laporan.harian');
+    Route::get('/stok', function () {
+        return view('stok.index');
+    })->name('stok.index');
 
-        Route::get('/laporan/bulanan', function () {
-            return view('laporan.bulanan');
-        })->name('laporan.bulanan');
+    // Laporan
+    Route::get('/laporan/harian', function () {
+        return view('laporan.harian');
+    })->name('laporan.harian');
 
-        Route::get('/transaksi', function () {
-            return view('transaksi.index');
-        })->name('transaksi.index');
-    });
+    Route::get('/laporan/bulanan', function () {
+        return view('laporan.bulanan');
+    })->name('laporan.bulanan');
 
-    /*
-    |----------------------------------------------------------------------
-    | Admin & Kasir Routes
-    |----------------------------------------------------------------------
-    */
-    Route::middleware('role:admin,kasir')->group(function () {
-        Route::get('/kasir', function () {
-            return view('kasir');
-        })->name('kasir');
+    Route::get('/transaksi', function () {
+        return view('transaksi.index');
+    })->name('transaksi.index');
 
-        Route::get('/profil', function () {
-            return view('profil');
-        })->name('profil');
-    });
+    // Profil
+    Route::get('/profil', function () {
+        return view('profil');
+    })->name('profil');
 });
