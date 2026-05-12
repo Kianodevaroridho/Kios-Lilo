@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
@@ -52,9 +53,9 @@ Route::middleware('auth')->group(function () {
         'produk' => 'produk'
     ]);
 
-    Route::get('/kategori', function () {
-        return view('kategori.index');
-    })->name('kategori.index');
+    Route::resource('kategori', CategoryController::class)->parameters([
+        'kategori' => 'kategori'
+    ]);
 
     Route::get('/stok', function () {
         return view('stok.index');
