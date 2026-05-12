@@ -5,6 +5,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\StockController;
+use App\Http\Controllers\ReportController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -65,13 +66,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/stok/logs', [StockController::class, 'logs'])->name('stok.logs');
 
     // Laporan
-    Route::get('/laporan/harian', function () {
-        return view('laporan.harian');
-    })->name('laporan.harian');
-
-    Route::get('/laporan/bulanan', function () {
-        return view('laporan.bulanan');
-    })->name('laporan.bulanan');
+    Route::get('/laporan/harian', [ReportController::class, 'daily'])->name('laporan.harian');
+    Route::get('/laporan/bulanan', [ReportController::class, 'monthly'])->name('laporan.bulanan');
 
     Route::get('/transaksi', [TransactionController::class, 'index'])->name('transaksi.index');
     Route::get('/transaksi/{transaksi}', [TransactionController::class, 'show'])->name('transaksi.show');
