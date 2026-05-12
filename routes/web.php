@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -47,9 +48,9 @@ Route::middleware('auth')->group(function () {
     })->name('kasir');
 
     // Master Data
-    Route::get('/produk', function () {
-        return view('produk.index');
-    })->name('produk.index');
+    Route::resource('produk', ProductController::class)->parameters([
+        'produk' => 'produk'
+    ]);
 
     Route::get('/kategori', function () {
         return view('kategori.index');
