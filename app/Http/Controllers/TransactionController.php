@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\StockLog;
 use App\Models\Transaction;
 use App\Models\TransactionDetail;
 use Illuminate\Http\Request;
@@ -88,7 +89,20 @@ class TransactionController extends Controller
                     ]);
 
                     // Kurangi Stok
-                    $item['product_model']->decrement('stock', $item['qty']);
+                    $productModel = $item['product_model'];
+                    $stockBefore = $productModel->stock;
+                    $productModel->decrement('stock', $item['qty']);
+
+                    // Catat Log Stok
+                    StockLog::create([
+                        'product_id' => $item['product_id'],
+                        'user_id' => auth()->id(),
+                        'type' => 'out',
+                        'qty' => $item['qty'],
+                        'stock_before' => $stockBefore,
+                        'stock_after' => $stockBefore - $item['qty'],
+                        'description' => "Penjualan (Transaksi #{$transaction->id})",
+                    ]);
                 }
 
                 return response()->json([

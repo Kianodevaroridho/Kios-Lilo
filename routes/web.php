@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\StockController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -58,9 +59,10 @@ Route::middleware('auth')->group(function () {
         'kategori' => 'kategori'
     ]);
 
-    Route::get('/stok', function () {
-        return view('stok.index');
-    })->name('stok.index');
+    // Manajemen Stok
+    Route::get('/stok', [StockController::class, 'index'])->name('stok.index');
+    Route::post('/stok/restock', [StockController::class, 'restock'])->name('stok.restock');
+    Route::get('/stok/logs', [StockController::class, 'logs'])->name('stok.logs');
 
     // Laporan
     Route::get('/laporan/harian', function () {
