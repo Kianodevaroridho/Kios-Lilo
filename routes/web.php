@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\TransactionController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -70,9 +71,9 @@ Route::middleware('auth')->group(function () {
         return view('laporan.bulanan');
     })->name('laporan.bulanan');
 
-    Route::get('/transaksi', function () {
-        return view('transaksi.index');
-    })->name('transaksi.index');
+    Route::get('/transaksi', [TransactionController::class, 'index'])->name('transaksi.index');
+    Route::get('/transaksi/{transaksi}', [TransactionController::class, 'show'])->name('transaksi.show');
+    Route::post('/transaksi', [TransactionController::class, 'store'])->name('transaksi.store');
 
     // Profil
     Route::get('/profil', function () {
