@@ -19,170 +19,155 @@ class DatabaseSeeder extends Seeder
     {
         // ========== USER (1 akun untuk semua) ==========
         User::create([
-            'name' => 'Admin Perlengkapan Baso',
+            'name' => 'Admin Kios Lilo',
             'email' => 'admin@kioslilo.com',
             'password' => bcrypt('password'),
             'role' => 'admin',
         ]);
 
-        // ========== CATEGORIES ==========
-        $makananRingan = Category::create([
-            'name' => 'Makanan Ringan',
-            'description' => 'Berbagai macam snack dan makanan ringan',
+        // ========== CATEGORIES (Perlengkapan Baso) ==========
+        $bahanBaku = Category::create([
+            'name' => 'Bahan Baku',
+            'description' => 'Daging, tepung, dan bumbu inti',
+        ]);
+
+        $pelengkap = Category::create([
+            'name' => 'Topping & Pelengkap',
+            'description' => 'Mie, sayuran, dan pelengkap mangkok',
+        ]);
+
+        $bumbu = Category::create([
+            'name' => 'Bumbu & Saos',
+            'description' => 'Kecap, saos, sambal, dan penyedap',
         ]);
 
         $minuman = Category::create([
             'name' => 'Minuman',
-            'description' => 'Minuman dingin dan panas',
+            'description' => 'Berbagai macam minuman dingin dan hangat',
         ]);
 
-        $rokok = Category::create([
-            'name' => 'Rokok',
-            'description' => 'Berbagai merek rokok',
+        $kemasan = Category::create([
+            'name' => 'Kemasan',
+            'description' => 'Mangkok plastik, kantong, dan sendok bebek',
         ]);
 
-        $kebutuhanHarian = Category::create([
-            'name' => 'Kebutuhan Harian',
-            'description' => 'Sabun, shampo, dan kebutuhan sehari-hari',
-        ]);
-
-        $mieInstan = Category::create([
-            'name' => 'Mie Instan',
-            'description' => 'Berbagai merek mie instan',
-        ]);
-
-        // ========== PRODUCTS ==========
-        // Makanan Ringan
+        // ========== PRODUCTS (Perlengkapan Baso) ==========
+        
+        // Bahan Baku
         Product::create([
-            'name' => 'Chitato Sapi Panggang',
-            'category_id' => $makananRingan->id,
-            'price' => 12000,
+            'name' => 'Daging Sapi Giling (1kg)',
+            'category_id' => $bahanBaku->id,
+            'price' => 125000,
+            'stock' => 10,
+            'barcode' => 'BS001',
+        ]);
+
+        Product::create([
+            'name' => 'Bakso Halus (50 butir)',
+            'category_id' => $bahanBaku->id,
+            'price' => 75000,
+            'stock' => 20,
+            'barcode' => 'BS002',
+        ]);
+
+        Product::create([
+            'name' => 'Bakso Urat Besar (10 butir)',
+            'category_id' => $bahanBaku->id,
+            'price' => 85000,
+            'stock' => 15,
+            'barcode' => 'BS003',
+        ]);
+
+        Product::create([
+            'name' => 'Tepung Tapioka (1kg)',
+            'category_id' => $bahanBaku->id,
+            'price' => 15000,
             'stock' => 50,
-            'barcode' => '8990123456789',
+            'barcode' => 'BS004',
+        ]);
+
+        // Topping & Pelengkap
+        Product::create([
+            'name' => 'Mie Kuning Basah (1kg)',
+            'category_id' => $pelengkap->id,
+            'price' => 12000,
+            'stock' => 25,
+            'barcode' => 'BS005',
         ]);
 
         Product::create([
-            'name' => 'Lays Rumput Laut',
-            'category_id' => $makananRingan->id,
-            'price' => 10000,
-            'stock' => 40,
-            'barcode' => '8990123456790',
+            'name' => 'Bihun Jagung (Pack)',
+            'category_id' => $pelengkap->id,
+            'price' => 8000,
+            'stock' => 30,
+            'barcode' => 'BS006',
         ]);
 
         Product::create([
-            'name' => 'Oreo Original',
-            'category_id' => $makananRingan->id,
-            'price' => 5000,
-            'stock' => 60,
-            'barcode' => '8990123456791',
+            'name' => 'Tahu Bakso (10 biji)',
+            'category_id' => $pelengkap->id,
+            'price' => 25000,
+            'stock' => 12,
+            'barcode' => 'BS007',
         ]);
 
         Product::create([
-            'name' => 'Tango Wafer Coklat',
-            'category_id' => $makananRingan->id,
-            'price' => 7500,
-            'stock' => 35,
-            'barcode' => '8990123456792',
+            'name' => 'Bawang Goreng (250gr)',
+            'category_id' => $pelengkap->id,
+            'price' => 35000,
+            'stock' => 8,
+            'barcode' => 'BS008',
+        ]);
+
+        // Bumbu & Saos
+        Product::create([
+            'name' => 'Saos Sambal Pedas (1kg)',
+            'category_id' => $bumbu->id,
+            'price' => 22000,
+            'stock' => 10,
+            'barcode' => 'BS009',
+        ]);
+
+        Product::create([
+            'name' => 'Kecap Manis Jerigen (5kg)',
+            'category_id' => $bumbu->id,
+            'price' => 110000,
+            'stock' => 5,
+            'barcode' => 'BS010',
         ]);
 
         // Minuman
         Product::create([
-            'name' => 'Teh Pucuk Harum',
+            'name' => 'Teh Manis Cup',
             'category_id' => $minuman->id,
-            'price' => 4000,
+            'price' => 5000,
             'stock' => 100,
-            'barcode' => '8991234567890',
+            'barcode' => 'BS011',
         ]);
 
         Product::create([
-            'name' => 'Aqua 600ml',
-            'category_id' => $minuman->id,
-            'price' => 4000,
-            'stock' => 120,
-            'barcode' => '8991234567891',
-        ]);
-
-        Product::create([
-            'name' => 'Coca Cola 390ml',
+            'name' => 'Es Jeruk',
             'category_id' => $minuman->id,
             'price' => 7000,
-            'stock' => 48,
-            'barcode' => '8991234567892',
+            'stock' => 40,
+            'barcode' => 'BS012',
+        ]);
+
+        // Kemasan
+        Product::create([
+            'name' => 'Mangkok Plastik (50 pcs)',
+            'category_id' => $kemasan->id,
+            'price' => 45000,
+            'stock' => 20,
+            'barcode' => 'BS013',
         ]);
 
         Product::create([
-            'name' => 'Kopi Good Day Cappuccino',
-            'category_id' => $minuman->id,
-            'price' => 3000,
-            'stock' => 80,
-            'barcode' => '8991234567893',
-        ]);
-
-        // Rokok
-        Product::create([
-            'name' => 'Gudang Garam Surya 16',
-            'category_id' => $rokok->id,
-            'price' => 30000,
-            'stock' => 25,
-            'barcode' => '8992345678901',
-        ]);
-
-        Product::create([
-            'name' => 'Sampoerna Mild',
-            'category_id' => $rokok->id,
-            'price' => 28000,
-            'stock' => 30,
-            'barcode' => '8992345678902',
-        ]);
-
-        // Kebutuhan Harian
-        Product::create([
-            'name' => 'Sabun Lifebuoy',
-            'category_id' => $kebutuhanHarian->id,
-            'price' => 3500,
-            'stock' => 45,
-            'barcode' => '8993456789012',
-        ]);
-
-        Product::create([
-            'name' => 'Shampo Pantene Sachet',
-            'category_id' => $kebutuhanHarian->id,
-            'price' => 1000,
-            'stock' => 200,
-            'barcode' => '8993456789013',
-        ]);
-
-        Product::create([
-            'name' => 'Pasta Gigi Pepsodent',
-            'category_id' => $kebutuhanHarian->id,
-            'price' => 8000,
-            'stock' => 3,
-            'barcode' => '8993456789014',
-        ]);
-
-        // Mie Instan
-        Product::create([
-            'name' => 'Indomie Goreng',
-            'category_id' => $mieInstan->id,
-            'price' => 3500,
-            'stock' => 150,
-            'barcode' => '8994567890123',
-        ]);
-
-        Product::create([
-            'name' => 'Indomie Soto',
-            'category_id' => $mieInstan->id,
-            'price' => 3000,
-            'stock' => 100,
-            'barcode' => '8994567890124',
-        ]);
-
-        Product::create([
-            'name' => 'Mie Sedaap Goreng',
-            'category_id' => $mieInstan->id,
-            'price' => 3500,
-            'stock' => 2,
-            'barcode' => '8994567890125',
+            'name' => 'Sendok Bebek Plastik (Pack)',
+            'category_id' => $kemasan->id,
+            'price' => 15000,
+            'stock' => 50,
+            'barcode' => 'BS014',
         ]);
     }
 }

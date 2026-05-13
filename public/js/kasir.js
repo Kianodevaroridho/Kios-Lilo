@@ -279,7 +279,7 @@ function setupCheckout() {
                 '.summary td{padding:3px 0}' +
                 '@media print{body{margin:0;padding:5px}}' +
                 '</style></head><body>' +
-                '<div class="center bold" style="font-size:16px">PERLENGKAPAN BASO</div>' +
+                '<div class="center bold" style="font-size:16px">KIOS LILO</div>' +
                 '<div class="center" style="font-size:11px">Jl. Contoh No. 123, Kota</div>' +
                 '<div class="center" style="font-size:11px">Telp: 0812-3456-7890</div>' +
                 '<div class="line"></div>' +
@@ -299,7 +299,7 @@ function setupCheckout() {
                 '</table>' +
                 '<div class="line"></div>' +
                 '<div class="center" style="font-size:11px">Terima kasih telah berbelanja!</div>' +
-                '<div class="center" style="font-size:10px;margin-top:4px">~ Perlengkapan Baso POS ~</div>' +
+                '<div class="center" style="font-size:10px;margin-top:4px">~ Kios Lilo POS ~</div>' +
                 '<script>window.onload=function(){window.print();}<\/script>' +
                 '</body></html>';
 

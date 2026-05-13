@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Perlengkapan Baso POS</title>
-    <meta name="description" content="Login ke aplikasi Perlengkapan Baso POS System">
+    <title>Login - Kios Lilo POS</title>
+    <meta name="description" content="Login ke aplikasi Kios Lilo POS System">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -231,7 +231,7 @@
                 <div class="logo-icon">
                     <i class="bi bi-shop"></i>
                 </div>
-                <h1>Perlengkapan Baso</h1>
+                <h1>Kios Lilo</h1>
                 <p>Masuk ke akun Anda</p>
             </div>
 
