@@ -15,17 +15,31 @@
             </div>
             <div class="pos-categories" id="categoryFilter">
                 <button class="cat-btn active" data-cat="all">Semua</button>
-                <button class="cat-btn" data-cat="minuman">🥤 Minuman</button>
-                <button class="cat-btn" data-cat="makanan">🍜 Makanan</button>
-                <button class="cat-btn" data-cat="snack">🍿 Snack</button>
-                <button class="cat-btn" data-cat="rokok">🚬 Rokok</button>
-                <button class="cat-btn" data-cat="kebutuhan">🧴 Kebutuhan</button>
+                @foreach(\App\Models\Category::all() as $cat)
+                <button class="cat-btn" data-cat="{{ strtolower($cat->name) }}">{{ $cat->name }}</button>
+                @endforeach
             </div>
         </div>
         <div class="product-grid" id="productGrid">
             {{-- Products will be rendered by JS --}}
         </div>
     </div>
+
+    @push('scripts')
+    <script>
+        // Inject data dari database ke JS
+        const products = @json(\App\Models\Product::with('category')->get()->map(function($p) {
+            return [
+                'id' => $p->id,
+                'name' => $p->name,
+                'price' => (int)$p->price,
+                'stock' => (int)$p->stock,
+                'category' => strtolower($p->category->name),
+                'emoji' => '📦' // Default emoji
+            ];
+        }));
+    </script>
+    @endpush
 
     {{-- Right: Cart --}}
     <div class="pos-cart">

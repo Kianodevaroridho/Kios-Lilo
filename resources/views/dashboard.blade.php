@@ -11,7 +11,7 @@
     <div class="stat-card">
         <div class="stat-info">
             <h3>Penjualan Hari Ini</h3>
-            <div class="stat-value">Rp 2.450.000</div>
+            <div class="stat-value">Rp {{ number_format($totalRevenueToday, 0, ',', '.') }}</div>
             <span class="stat-change positive">
                 <i class="bi bi-arrow-up-short"></i> +12.5%
             </span>
@@ -24,7 +24,7 @@
     <div class="stat-card">
         <div class="stat-info">
             <h3>Total Transaksi</h3>
-            <div class="stat-value">48</div>
+            <div class="stat-value">{{ $totalTransactionsToday }}</div>
             <span class="stat-change positive">
                 <i class="bi bi-arrow-up-short"></i> +8.3%
             </span>
@@ -37,7 +37,7 @@
     <div class="stat-card">
         <div class="stat-info">
             <h3>Jumlah Produk</h3>
-            <div class="stat-value">156</div>
+            <div class="stat-value">{{ $totalProducts }}</div>
             <span class="stat-change positive">
                 <i class="bi bi-arrow-up-short"></i> +3
             </span>
@@ -50,9 +50,10 @@
     <div class="stat-card">
         <div class="stat-info">
             <h3>Stok Menipis</h3>
-            <div class="stat-value">7</div>
-            <span class="stat-change negative">
-                <i class="bi bi-exclamation-triangle"></i> Perlu restock
+            <div class="stat-value">{{ $lowStockCount }}</div>
+            <span class="stat-change {{ $lowStockCount > 0 ? 'negative' : 'positive' }}">
+                <i class="bi {{ $lowStockCount > 0 ? 'bi-exclamation-triangle' : 'bi-check-circle' }}"></i> 
+                {{ $lowStockCount > 0 ? 'Perlu restock' : 'Stok aman' }}
             </span>
         </div>
         <div class="stat-icon red">
@@ -72,48 +73,18 @@
         <div class="card-body">
             <div class="chart-placeholder" id="salesChart">
                 <div class="chart-bars">
+                    @php 
+                        $max = count($salesData) > 0 ? max($salesData) : 0;
+                        if ($max == 0) $max = 1;
+                    @endphp
+                    @foreach($salesData as $index => $revenue)
                     <div class="chart-bar-group">
-                        <div class="chart-bar" style="height: 45%;" data-value="Rp 1.2jt">
-                            <span class="chart-tooltip">Rp 1.200.000</span>
+                        <div class="chart-bar {{ $index == 6 ? 'highlight' : '' }}" style="height: {{ ($revenue / $max) * 90 }}%;" data-value="Rp {{ number_format($revenue/1000, 1) }}k">
+                            <span class="chart-tooltip">Rp {{ number_format($revenue, 0, ',', '.') }}</span>
                         </div>
-                        <span class="chart-label">Sen</span>
+                        <span class="chart-label">{{ $days[$index] }}</span>
                     </div>
-                    <div class="chart-bar-group">
-                        <div class="chart-bar" style="height: 65%;" data-value="Rp 1.8jt">
-                            <span class="chart-tooltip">Rp 1.800.000</span>
-                        </div>
-                        <span class="chart-label">Sel</span>
-                    </div>
-                    <div class="chart-bar-group">
-                        <div class="chart-bar" style="height: 55%;" data-value="Rp 1.5jt">
-                            <span class="chart-tooltip">Rp 1.500.000</span>
-                        </div>
-                        <span class="chart-label">Rab</span>
-                    </div>
-                    <div class="chart-bar-group">
-                        <div class="chart-bar" style="height: 80%;" data-value="Rp 2.3jt">
-                            <span class="chart-tooltip">Rp 2.300.000</span>
-                        </div>
-                        <span class="chart-label">Kam</span>
-                    </div>
-                    <div class="chart-bar-group">
-                        <div class="chart-bar" style="height: 70%;" data-value="Rp 2.0jt">
-                            <span class="chart-tooltip">Rp 2.000.000</span>
-                        </div>
-                        <span class="chart-label">Jum</span>
-                    </div>
-                    <div class="chart-bar-group">
-                        <div class="chart-bar highlight" style="height: 90%;" data-value="Rp 2.5jt">
-                            <span class="chart-tooltip">Rp 2.450.000</span>
-                        </div>
-                        <span class="chart-label">Sab</span>
-                    </div>
-                    <div class="chart-bar-group">
-                        <div class="chart-bar" style="height: 40%;" data-value="Rp 1.1jt">
-                            <span class="chart-tooltip">Rp 1.100.000</span>
-                        </div>
-                        <span class="chart-label">Min</span>
-                    </div>
+                    @endforeach
                 </div>
             </div>
         </div>
@@ -136,36 +107,18 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @forelse($topProducts as $index => $item)
                     <tr>
-                        <td><span class="rank rank-1">1</span></td>
-                        <td><strong>Indomie Goreng</strong></td>
-                        <td>342</td>
-                        <td class="text-bold">Rp 1.026.000</td>
+                        <td><span class="rank rank-{{ $index + 1 }}">{{ $index + 1 }}</span></td>
+                        <td><strong>{{ $item->product->name }}</strong></td>
+                        <td>{{ $item->total_qty }}</td>
+                        <td class="text-bold">Rp {{ number_format($item->total_amount, 0, ',', '.') }}</td>
                     </tr>
+                    @empty
                     <tr>
-                        <td><span class="rank rank-2">2</span></td>
-                        <td><strong>Aqua 600ml</strong></td>
-                        <td>289</td>
-                        <td class="text-bold">Rp 1.156.000</td>
+                        <td colspan="4" class="text-center">Belum ada data penjualan bulan ini</td>
                     </tr>
-                    <tr>
-                        <td><span class="rank rank-3">3</span></td>
-                        <td><strong>Teh Botol Sosro</strong></td>
-                        <td>215</td>
-                        <td class="text-bold">Rp 860.000</td>
-                    </tr>
-                    <tr>
-                        <td><span class="rank">4</span></td>
-                        <td><strong>Rokok Gudang Garam</strong></td>
-                        <td>198</td>
-                        <td class="text-bold">Rp 5.940.000</td>
-                    </tr>
-                    <tr>
-                        <td><span class="rank">5</span></td>
-                        <td><strong>Beras 5kg</strong></td>
-                        <td>87</td>
-                        <td class="text-bold">Rp 5.655.000</td>
-                    </tr>
+                    @endforelse
                 </tbody>
             </table>
         </div>
@@ -187,52 +140,24 @@
                     <th>No. Transaksi</th>
                     <th>Waktu</th>
                     <th>Kasir</th>
-                    <th>Items</th>
                     <th>Total</th>
                     <th>Status</th>
                 </tr>
             </thead>
             <tbody>
+                @forelse($recentTransactions as $trx)
                 <tr>
-                    <td><strong>#TRX-20260511-001</strong></td>
-                    <td>14:32</td>
-                    <td>Admin</td>
-                    <td>5 item</td>
-                    <td class="text-bold">Rp 87.500</td>
+                    <td><strong>#TRX-{{ $trx->created_at->format('Ymd') }}-{{ str_pad($trx->id, 3, '0', STR_PAD_LEFT) }}</strong></td>
+                    <td>{{ $trx->created_at->format('H:i') }}</td>
+                    <td>{{ $trx->user->name }}</td>
+                    <td class="text-bold">Rp {{ number_format($trx->total, 0, ',', '.') }}</td>
                     <td><span class="badge badge-success"><i class="bi bi-check-circle"></i> Lunas</span></td>
                 </tr>
+                @empty
                 <tr>
-                    <td><strong>#TRX-20260511-002</strong></td>
-                    <td>13:18</td>
-                    <td>Admin</td>
-                    <td>3 item</td>
-                    <td class="text-bold">Rp 45.000</td>
-                    <td><span class="badge badge-success"><i class="bi bi-check-circle"></i> Lunas</span></td>
+                    <td colspan="5" class="text-center">Belum ada transaksi</td>
                 </tr>
-                <tr>
-                    <td><strong>#TRX-20260511-003</strong></td>
-                    <td>12:05</td>
-                    <td>Admin</td>
-                    <td>8 item</td>
-                    <td class="text-bold">Rp 156.000</td>
-                    <td><span class="badge badge-success"><i class="bi bi-check-circle"></i> Lunas</span></td>
-                </tr>
-                <tr>
-                    <td><strong>#TRX-20260511-004</strong></td>
-                    <td>11:42</td>
-                    <td>Admin</td>
-                    <td>2 item</td>
-                    <td class="text-bold">Rp 23.000</td>
-                    <td><span class="badge badge-success"><i class="bi bi-check-circle"></i> Lunas</span></td>
-                </tr>
-                <tr>
-                    <td><strong>#TRX-20260511-005</strong></td>
-                    <td>10:15</td>
-                    <td>Admin</td>
-                    <td>6 item</td>
-                    <td class="text-bold">Rp 112.500</td>
-                    <td><span class="badge badge-success"><i class="bi bi-check-circle"></i> Lunas</span></td>
-                </tr>
+                @endforelse
             </tbody>
         </table>
     </div>

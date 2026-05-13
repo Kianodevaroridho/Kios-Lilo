@@ -5,30 +5,64 @@
 
 @section('content')
 <div class="flex-between mb-6">
-    <div class="header-search" style="width:300px">
+    <form action="{{ route('produk.index') }}" method="GET" class="header-search" style="width:300px">
         <i class="bi bi-search"></i>
-        <input type="text" placeholder="Cari produk...">
-    </div>
-    <button class="btn btn-primary"><i class="bi bi-plus-lg"></i> Tambah Produk</button>
+        <input type="text" name="search" placeholder="Cari produk..." value="{{ request('search') }}">
+    </form>
+    <a href="{{ route('produk.create') }}" class="btn btn-primary"><i class="bi bi-plus-lg"></i> Tambah Produk</a>
 </div>
 
 <div class="table-container">
     <table class="table">
-        <thead><tr><th>No</th><th>Produk</th><th>Kategori</th><th>Harga</th><th>Stok</th><th>Status</th><th>Aksi</th></tr></thead>
-        <tbody>
-            @php $items = [['Indomie Goreng','Makanan',3500,120],['Aqua 600ml','Minuman',4000,200],['Teh Botol Sosro','Minuman',5000,75],['Chitato 68g','Snack',10000,30],['Sampoerna Mild 16','Rokok',32000,20],['Telur 1kg','Kebutuhan',28000,15],['Minyak Goreng 1L','Kebutuhan',18000,25],['Gula 1kg','Kebutuhan',16000,8]]; @endphp
-            @foreach($items as $i => $p)
+        <thead>
             <tr>
-                <td>{{ $i+1 }}</td>
-                <td><strong>{{ $p[0] }}</strong></td>
-                <td><span class="badge badge-info">{{ $p[1] }}</span></td>
-                <td>Rp {{ number_format($p[2],0,',','.') }}</td>
-                <td>{{ $p[3] }}</td>
-                <td>{!! $p[3]<=10 ? '<span class="badge badge-danger">Menipis</span>' : '<span class="badge badge-success">Tersedia</span>' !!}</td>
-                <td><div class="flex gap-2"><button class="btn btn-sm btn-outline"><i class="bi bi-pencil"></i></button><button class="btn btn-sm btn-danger"><i class="bi bi-trash3"></i></button></div></td>
+                <th>No</th>
+                <th>Produk</th>
+                <th>Kategori</th>
+                <th>Harga</th>
+                <th>Stok</th>
+                <th>Status</th>
+                <th>Aksi</th>
             </tr>
-            @endforeach
+        </thead>
+        <tbody>
+            @forelse($products as $i => $p)
+            <tr>
+                <td>{{ ($products->currentPage() - 1) * $products->perPage() + $i + 1 }}</td>
+                <td><strong>{{ $p->name }}</strong><br><small class="text-gray-500">{{ $p->barcode }}</small></td>
+                <td><span class="badge badge-info">{{ $p->category->name }}</span></td>
+                <td>Rp {{ number_format($p->price, 0, ',', '.') }}</td>
+                <td>{{ $p->stock }}</td>
+                <td>
+                    @if($p->stock <= 0)
+                        <span class="badge badge-danger">Habis</span>
+                    @elseif($p->stock <= 10)
+                        <span class="badge badge-warning">Menipis</span>
+                    @else
+                        <span class="badge badge-success">Tersedia</span>
+                    @endif
+                </td>
+                <td>
+                    <div class="flex gap-2">
+                        <a href="{{ route('produk.edit', $p->id) }}" class="btn btn-sm btn-outline"><i class="bi bi-pencil"></i></a>
+                        <form action="{{ route('produk.destroy', $p->id) }}" method="POST" onsubmit="return confirm('Hapus produk ini?')">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-sm btn-danger"><i class="bi bi-trash3"></i></button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            @empty
+            <tr>
+                <td colspan="7" class="text-center">Data produk tidak ditemukan.</td>
+            </tr>
+            @endforelse
         </tbody>
     </table>
+</div>
+
+<div class="mt-4">
+    {{ $products->links() }}
 </div>
 @endsection

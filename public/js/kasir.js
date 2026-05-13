@@ -3,29 +3,8 @@
  * Handles product display, cart management, and checkout
  */
 
-// Dummy product data (nanti diganti dari database)
-const products = [
-    { id: 1, name: 'Indomie Goreng', price: 3500, stock: 120, category: 'makanan', emoji: '🍜' },
-    { id: 2, name: 'Indomie Kuah', price: 3500, stock: 95, category: 'makanan', emoji: '🍜' },
-    { id: 3, name: 'Mie Sedaap', price: 3200, stock: 80, category: 'makanan', emoji: '🍜' },
-    { id: 4, name: 'Aqua 600ml', price: 4000, stock: 200, category: 'minuman', emoji: '💧' },
-    { id: 5, name: 'Aqua 1500ml', price: 8000, stock: 50, category: 'minuman', emoji: '💧' },
-    { id: 6, name: 'Teh Botol Sosro', price: 5000, stock: 75, category: 'minuman', emoji: '🧃' },
-    { id: 7, name: 'Coca Cola 390ml', price: 7000, stock: 40, category: 'minuman', emoji: '🥤' },
-    { id: 8, name: 'Sprite 390ml', price: 7000, stock: 35, category: 'minuman', emoji: '🥤' },
-    { id: 9, name: 'Kopi ABC Sachet', price: 2000, stock: 150, category: 'minuman', emoji: '☕' },
-    { id: 10, name: 'Chitato 68g', price: 10000, stock: 30, category: 'snack', emoji: '🍿' },
-    { id: 11, name: 'Taro Net', price: 5000, stock: 45, category: 'snack', emoji: '🍿' },
-    { id: 12, name: 'Oreo 133g', price: 8500, stock: 25, category: 'snack', emoji: '🍪' },
-    { id: 13, name: 'Roti Sari Roti', price: 6000, stock: 20, category: 'makanan', emoji: '🍞' },
-    { id: 14, name: 'Telur 1kg', price: 28000, stock: 15, category: 'kebutuhan', emoji: '🥚' },
-    { id: 15, name: 'Gula 1kg', price: 16000, stock: 30, category: 'kebutuhan', emoji: '🧂' },
-    { id: 16, name: 'Minyak Goreng 1L', price: 18000, stock: 25, category: 'kebutuhan', emoji: '🫗' },
-    { id: 17, name: 'Sabun Lifebuoy', price: 4000, stock: 40, category: 'kebutuhan', emoji: '🧴' },
-    { id: 18, name: 'Sampoerna Mild 16', price: 32000, stock: 20, category: 'rokok', emoji: '🚬' },
-    { id: 19, name: 'Gudang Garam 12', price: 24000, stock: 18, category: 'rokok', emoji: '🚬' },
-    { id: 20, name: 'Surya Pro Mild 16', price: 28000, stock: 22, category: 'rokok', emoji: '🚬' },
-];
+// products variable is now injected from Blade file
+
 
 let cart = [];
 let activeCategory = 'all';
