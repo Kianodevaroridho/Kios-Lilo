@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
     {
         // ========== USER (1 akun untuk semua) ==========
         User::create([
-            'name' => 'Admin Kios Lilo',
+            'name' => 'Admin Perlengkapan Baso',
             'email' => 'admin@kioslilo.com',
             'password' => bcrypt('password'),
             'role' => 'admin',

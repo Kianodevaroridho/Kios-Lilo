@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'Kios Lilo') - POS System</title>
-    <meta name="description" content="Kios Lilo - Aplikasi Point of Sale modern untuk manajemen toko">
+    <title>@yield('title', config('app.name', 'Perlengkapan Baso')) - POS System</title>
+    <meta name="description" content="Perlengkapan Baso - Aplikasi Point of Sale modern untuk manajemen toko">
 
     {{-- Google Fonts --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -29,7 +29,7 @@
                         <i class="bi bi-shop"></i>
                     </div>
                     <div class="logo-text">
-                        <h1>Kios Lilo</h1>
+                        <h1>Perlengkapan Baso</h1>
                         <span>POS System</span>
                     </div>
                 </div>
@@ -122,7 +122,7 @@
                     </button>
                     <div class="breadcrumb-area">
                         <h2 class="page-title">@yield('page-title', 'Dashboard')</h2>
-                        <p class="page-subtitle">@yield('page-subtitle', 'Selamat datang di Kios Lilo POS')</p>
+                        <p class="page-subtitle">@yield('page-subtitle', 'Selamat datang di Perlengkapan Baso POS')</p>
                     </div>
                 </div>
                 <div class="header-right">
