@@ -16,7 +16,6 @@ class StockController extends Controller
     {
         $query = Product::with('category');
 
-        // Filter stok menipis (default < 10 atau sesuai input)
         if ($request->has('status') && $request->status == 'low') {
             $query->where('stock', '<=', 10);
         }
@@ -28,7 +27,23 @@ class StockController extends Controller
         }
 
         $products = $query->latest()->paginate(10);
-        return view('stok.index', compact('products'));
+
+        // Statistik
+        $totalProduk  = Product::count();
+        $stokTersedia = Product::where('stock', '>', 10)->count();
+        $stokMenipis  = Product::where('stock', '>', 0)->where('stock', '<=', 10)->count();
+        $stokHabis    = Product::where('stock', '<=', 0)->count();
+
+        // Produk stok menipis (untuk tabel peringatan)
+        $lowStockProducts = Product::with('category')
+            ->where('stock', '>', 0)
+            ->where('stock', '<=', 10)
+            ->orderBy('stock')
+            ->get();
+
+        return view('stok.index', compact(
+            'products', 'totalProduk', 'stokTersedia', 'stokMenipis', 'stokHabis', 'lowStockProducts'
+        ));
     }
 
     /**

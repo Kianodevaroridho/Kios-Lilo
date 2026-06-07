@@ -169,5 +169,89 @@ class DatabaseSeeder extends Seeder
             'stock' => 50,
             'barcode' => 'BS014',
         ]);
+
+        Product::create([
+            'name' => 'Kantong Plastik Bening (Pack)',
+            'category_id' => $kemasan->id,
+            'price' => 12000,
+            'stock' => 40,
+            'barcode' => 'BS015',
+        ]);
+
+        Product::create([
+            'name' => 'Sumpit Bambu (100 pcs)',
+            'category_id' => $kemasan->id,
+            'price' => 10000,
+            'stock' => 30,
+            'barcode' => 'BS016',
+        ]);
+
+        // Tambahan Bahan Baku
+        Product::create([
+            'name' => 'Bakso Keju Isi (10 butir)',
+            'category_id' => $bahanBaku->id,
+            'price' => 95000,
+            'stock' => 8,
+            'barcode' => 'BS017',
+        ]);
+
+        Product::create([
+            'name' => 'Siomay Ayam (10 biji)',
+            'category_id' => $bahanBaku->id,
+            'price' => 40000,
+            'stock' => 12,
+            'barcode' => 'BS018',
+        ]);
+
+        // Tambahan Bumbu
+        Product::create([
+            'name' => 'Kaldu Ayam Bubuk (250gr)',
+            'category_id' => $bumbu->id,
+            'price' => 18000,
+            'stock' => 25,
+            'barcode' => 'BS019',
+        ]);
+
+        Product::create([
+            'name' => 'Merica Bubuk (100gr)',
+            'category_id' => $bumbu->id,
+            'price' => 12000,
+            'stock' => 7,
+            'barcode' => 'BS020',
+        ]);
+
+        // Tambahan Topping
+        Product::create([
+            'name' => 'Ceker Ayam Rebus (5 pcs)',
+            'category_id' => $pelengkap->id,
+            'price' => 18000,
+            'stock' => 10,
+            'barcode' => 'BS021',
+        ]);
+
+        Product::create([
+            'name' => 'Telur Puyuh Rebus (10 biji)',
+            'category_id' => $pelengkap->id,
+            'price' => 10000,
+            'stock' => 15,
+            'barcode' => 'BS022',
+        ]);
+
+        // Tambahan Minuman
+        Product::create([
+            'name' => 'Air Mineral Gelas (Cup)',
+            'category_id' => $minuman->id,
+            'price' => 2000,
+            'stock' => 200,
+            'barcode' => 'BS023',
+        ]);
+
+        Product::create([
+            'name' => 'Jus Jeruk Segar',
+            'category_id' => $minuman->id,
+            'price' => 10000,
+            'stock' => 0,
+            'barcode' => 'BS024',
+        ]);
     }
 }

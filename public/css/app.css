@@ -1012,3 +1012,100 @@ img {
         font-size: var(--font-size-xl);
     }
 }
+
+/* ============================================
+   PAGINATION
+   ============================================ */
+.pagination {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2);
+    font-size: var(--font-size-sm);
+    flex-wrap: wrap;
+    row-gap: var(--space-3);
+}
+
+.pagination nav {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+}
+
+/* Teks "Showing X to Y of Z results" */
+.pagination p {
+    color: var(--gray-500);
+    font-size: var(--font-size-xs);
+}
+
+/* Wrapper tombol halaman */
+.pagination span[aria-current],
+.pagination a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 36px;
+    height: 36px;
+    padding: 0 var(--space-2);
+    border-radius: var(--radius-sm);
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    transition: all var(--transition-fast);
+    border: 2px solid var(--gray-200);
+    color: var(--gray-700);
+    background: var(--white);
+    text-decoration: none;
+}
+
+.pagination a:hover {
+    border-color: var(--primary-light);
+    color: var(--primary);
+    background: rgba(108, 92, 231, 0.04);
+}
+
+/* Halaman aktif */
+.pagination span[aria-current="page"] > span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 36px;
+    height: 36px;
+    padding: 0 var(--space-2);
+    border-radius: var(--radius-sm);
+    font-size: var(--font-size-sm);
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: var(--white);
+    border: 2px solid var(--primary);
+    box-shadow: 0 4px 15px var(--primary-glow);
+}
+
+/* Disabled (Previous/Next yang tidak bisa diklik) */
+.pagination span[aria-disabled="true"] > span,
+.pagination span:not([aria-current]):not([aria-disabled]) > span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 36px;
+    height: 36px;
+    padding: 0 var(--space-2);
+    border-radius: var(--radius-sm);
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    border: 2px solid var(--gray-200);
+    color: var(--gray-400);
+    background: var(--gray-50);
+    cursor: not-allowed;
+}
+
+/* Ellipsis "..." */
+.pagination span[aria-disabled="true"] {
+    cursor: default;
+}
+
+/* Wrap semua tombol halaman */
+.pagination .flex {
+    display: flex;
+    gap: var(--space-1);
+    align-items: center;
+}
