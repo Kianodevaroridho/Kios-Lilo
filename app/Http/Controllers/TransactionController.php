@@ -16,7 +16,7 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        $transactions = Transaction::with('user')->latest()->paginate(10);
+        $transactions = Transaction::with(['user', 'details'])->latest()->paginate(10);
         return view('transaksi.index', compact('transactions'));
     }
 

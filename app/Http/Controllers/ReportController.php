@@ -17,7 +17,7 @@ class ReportController extends Controller
     {
         $date = $request->date ? Carbon::parse($request->date) : Carbon::today();
 
-        $transactions = Transaction::with(['user', 'details.product'])
+        $transactions = Transaction::with(['user', 'details'])
             ->whereDate('created_at', $date)
             ->latest()
             ->get();

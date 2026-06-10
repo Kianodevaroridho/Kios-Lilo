@@ -200,11 +200,53 @@ function setupCheckout() {
         var change = payment - total;
 
         if (payment < total) { alert('Pembayaran kurang!'); return; }
+        if (cart.length === 0) { alert('Keranjang kosong!'); return; }
 
-        // Show success modal
-        document.getElementById('modalInfo').textContent =
-            'Total: ' + formatRupiah(total) + ' | Bayar: ' + formatRupiah(payment) + ' | Kembali: ' + formatRupiah(change);
-        document.getElementById('successModal').classList.add('show');
+        // Disable button untuk mencegah double submit
+        btn.disabled = true;
+        btn.innerHTML = '<i class="bi bi-hourglass-split"></i> Memproses...';
+
+        // Ambil CSRF token dari meta tag
+        var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+        // Siapkan payload
+        var payload = {
+            payment: payment,
+            cart: cart.map(function(item) {
+                return { id: item.id, qty: item.qty };
+            })
+        };
+
+        fetch('/transaksi', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': csrfToken,
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        })
+        .then(function(res) { return res.json(); })
+        .then(function(data) {
+            if (data.success) {
+                // Simpan info untuk modal
+                document.getElementById('modalInfo').textContent =
+                    'Total: ' + formatRupiah(data.data.total) +
+                    ' | Bayar: ' + formatRupiah(payment) +
+                    ' | Kembali: ' + formatRupiah(data.data.change);
+                document.getElementById('successModal').classList.add('show');
+            } else {
+                alert('Gagal: ' + data.message);
+                btn.disabled = false;
+                btn.innerHTML = '<i class="bi bi-check2-circle"></i> Bayar Sekarang';
+            }
+        })
+        .catch(function(err) {
+            alert('Terjadi kesalahan jaringan. Coba lagi.');
+            console.error(err);
+            btn.disabled = false;
+            btn.innerHTML = '<i class="bi bi-check2-circle"></i> Bayar Sekarang';
+        });
     });
 
     // New Transaction
@@ -216,6 +258,10 @@ function setupCheckout() {
             updateTotal();
             document.getElementById('paymentAmount').value = '';
             document.getElementById('successModal').classList.remove('show');
+            // Reset checkout button
+            var checkoutBtn = document.getElementById('checkoutBtn');
+            checkoutBtn.disabled = true;
+            checkoutBtn.innerHTML = '<i class="bi bi-check2-circle"></i> Bayar Sekarang';
         });
     }
 

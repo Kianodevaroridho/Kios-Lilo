@@ -85,6 +85,9 @@
         <a href="{{ route('stok.index', ['status' => 'low']) }}" class="btn btn-sm btn-outline {{ request('status') == 'low' ? 'btn-primary' : '' }}">
             <i class="bi bi-exclamation-triangle"></i> Menipis
         </a>
+        <a href="{{ route('stok.logs') }}" class="btn btn-sm btn-outline">
+            <i class="bi bi-clock-history"></i> Riwayat Stok
+        </a>
     </div>
 </div>
 
