@@ -45,7 +45,17 @@ Route::middleware('auth')->group(function () {
 
     // Kasir / POS
     Route::get('/kasir', function () {
-        return view('kasir');
+        $products = \App\Models\Product::with('category')->get()->map(function($p) {
+            return [
+                'id' => $p->id,
+                'name' => $p->name,
+                'price' => (int)$p->price,
+                'stock' => (int)$p->stock,
+                'category' => $p->category ? strtolower($p->category->name) : 'all',
+                'emoji' => '📦'
+            ];
+        });
+        return view('kasir', compact('products'));
     })->name('kasir');
 
     // Master Data
@@ -63,6 +73,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/stok/logs', [StockController::class, 'logs'])->name('stok.logs');
 
     // Laporan
+    Route::get('/laporan/harian/excel', [ReportController::class, 'dailyExcel'])->name('laporan.harian.excel');
+    Route::get('/laporan/bulanan/excel', [ReportController::class, 'monthlyExcel'])->name('laporan.bulanan.excel');
     Route::get('/laporan/harian', [ReportController::class, 'daily'])->name('laporan.harian');
     Route::get('/laporan/bulanan', [ReportController::class, 'monthly'])->name('laporan.bulanan');
 

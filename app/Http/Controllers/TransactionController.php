@@ -14,9 +14,20 @@ class TransactionController extends Controller
     /**
      * Menampilkan riwayat transaksi.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $transactions = Transaction::with(['user', 'details'])->latest()->paginate(10);
+        $query = Transaction::with(['user', 'details']);
+
+        if ($request->filled('from')) {
+            $query->whereDate('created_at', '>=', $request->from);
+        }
+
+        if ($request->filled('to')) {
+            $query->whereDate('created_at', '<=', $request->to);
+        }
+
+        $transactions = $query->latest()->paginate(10)->withQueryString();
+
         return view('transaksi.index', compact('transactions'));
     }
 

@@ -88,9 +88,47 @@
     </div>
 
     <div class="flex gap-3 mt-6">
-        <button class="btn btn-outline" onclick="window.print()">
+<button class="btn btn-outline" onclick="printReceiptDetail()">
             <i class="bi bi-printer"></i> Cetak Struk
         </button>
+        <script>
+        function printReceiptDetail(){
+            var receipt = document.getElementById('receiptDiv').innerHTML;
+            var style = 'body{font-family:monospace;font-size:12px;width:280px;margin:0 auto;padding:10px;color:#000}.center{text-align:center}.bold{font-weight:bold}.line{border-top:1px dashed #000;margin:8px 0}table{width:100%;border-collapse:collapse}th{text-align:left;padding:4px 0;border-bottom:1px solid #000;font-size:11px}.right{text-align:right}.summary td{padding:3px 0}@media print{body{margin:0;padding:5px}}';
+            var w = window.open('', '_blank', 'width=350,height=600');
+            w.document.write('<!DOCTYPE html><html><head><title>Struk</title><style>'+style+'</style></head><body>'+receipt+'</body></html>');
+            w.document.close();
+            w.print();
+        }
+        </script>
+        <div id="receiptDiv" style="display:none;">
+            <div class="center bold" style="font-size:16px">KIOS LILO</div>
+            <div class="center" style="font-size:11px">Pasar Muka Ramayana Cianjur, Lantai Dasar, Blok D No. 23</div>
+            <div class="center" style="font-size:11px">Telp: 0819-1229-9111</div>
+            <div class="line"></div>
+            <div style="font-size:11px">No: TRX-{{ str_pad($transaksi->id,5,'0',STR_PAD_LEFT) }}</div>
+            <div style="font-size:11px">Tanggal: {{ $transaksi->created_at->format('d M Y') }}</div>
+            <div style="font-size:11px">Waktu: {{ $transaksi->created_at->format('H:i') }}</div>
+            <div style="font-size:11px">Kasir: {{ $transaksi->user->name ?? 'Admin' }}</div>
+            <div class="line"></div>
+            <table><thead><tr><th>Item</th><th style="text-align:center">Qty</th><th style="text-align:right">Harga</th><th style="text-align:right">Subtotal</th></tr></thead><tbody>
+            @foreach($transaksi->details as $detail)
+            <tr>
+                <td style="padding:4px 0;">{{ $detail->product->name ?? 'Produk dihapus' }}</td>
+                <td style="text-align:center;padding:4px 0;">{{ $detail->qty }}</td>
+                <td style="text-align:right;padding:4px 0;">Rp {{ number_format($detail->price,0,',','.') }}</td>
+                <td style="text-align:right;padding:4px 0;">Rp {{ number_format($detail->price * $detail->qty,0,',','.') }}</td>
+            </tr>
+            @endforeach
+            </tbody></table>
+            <div class="line"></div>
+            <table class="summary"><tr><td class="bold">TOTAL</td><td class="right bold" style="font-size:14px">Rp {{ number_format($transaksi->total,0,',','.') }}</td></tr>
+            <tr><td>Bayar</td><td class="right">Rp {{ number_format($transaksi->payment,0,',','.') }}</td></tr>
+            <tr><td>Kembali</td><td class="right">Rp {{ number_format($transaksi->change,0,',','.') }}</td></tr></table>
+            <div class="line"></div>
+            <div class="center" style="font-size:11px">Terima kasih telah berbelanja!</div>
+            <div class="center" style="font-size:10px;margin-top:4px">~ Kios Lilo POS ~</div>
+        </div>
         <a href="{{ route('transaksi.index') }}" class="btn btn-primary">
             <i class="bi bi-arrow-left"></i> Kembali ke Riwayat
         </a>

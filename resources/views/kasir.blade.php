@@ -28,16 +28,7 @@
     @push('scripts')
     <script>
         // Inject data dari database ke JS
-        const products = @json(\App\Models\Product::with('category')->get()->map(function($p) {
-            return [
-                'id' => $p->id,
-                'name' => $p->name,
-                'price' => (int)$p->price,
-                'stock' => (int)$p->stock,
-                'category' => strtolower($p->category->name),
-                'emoji' => '📦' // Default emoji
-            ];
-        }));
+        const products = @json($products);
     </script>
     @endpush
 

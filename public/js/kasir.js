@@ -7,6 +7,7 @@
 
 
 let cart = [];
+let lastTransaction = null;
 let activeCategory = 'all';
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -234,6 +235,16 @@ function setupCheckout() {
                     'Total: ' + formatRupiah(data.data.total) +
                     ' | Bayar: ' + formatRupiah(payment) +
                     ' | Kembali: ' + formatRupiah(data.data.change);
+                
+                // Simpan snapshot untuk cetak struk
+                lastTransaction = {
+                    cart: JSON.parse(JSON.stringify(cart)),
+                    payment: payment,
+                    total: data.data.total,
+                    change: data.data.change,
+                    trxId: 'TRX-' + String(data.data.transaction_id).padStart(5, '0')
+                };
+
                 document.getElementById('successModal').classList.add('show');
             } else {
                 alert('Gagal: ' + data.message);
@@ -254,6 +265,7 @@ function setupCheckout() {
     if (newBtn) {
         newBtn.addEventListener('click', function () {
             cart = [];
+            lastTransaction = null;
             renderCart();
             updateTotal();
             document.getElementById('paymentAmount').value = '';
@@ -269,20 +281,29 @@ function setupCheckout() {
     var printBtn = document.getElementById('printReceipt');
     if (printBtn) {
         printBtn.addEventListener('click', function () {
-            var total = cart.reduce(function (s, i) { return s + (i.price * i.qty); }, 0);
-            var payment = parseInt(document.getElementById('paymentAmount').value) || 0;
-            var change = payment - total;
+            var tx = lastTransaction || {
+                cart: cart,
+                payment: parseInt(document.getElementById('paymentAmount').value) || 0,
+                total: cart.reduce(function (s, i) { return s + (i.price * i.qty); }, 0),
+                change: (parseInt(document.getElementById('paymentAmount').value) || 0) - cart.reduce(function (s, i) { return s + (i.price * i.qty); }, 0),
+                trxId: null
+            };
+
+            if (!tx.cart || tx.cart.length === 0) { alert('Tidak ada transaksi untuk dicetak.'); return; }
+            var total = tx.total;
+            var payment = tx.payment;
+            var change = tx.change;
             var now = new Date();
-            var trxId = 'TRX-' + now.getFullYear() +
+            var trxId = tx.trxId || ('TRX-' + now.getFullYear() +
                 String(now.getMonth()+1).padStart(2,'0') +
                 String(now.getDate()).padStart(2,'0') + '-' +
                 String(now.getHours()).padStart(2,'0') +
                 String(now.getMinutes()).padStart(2,'0') +
-                String(now.getSeconds()).padStart(2,'0');
+                String(now.getSeconds()).padStart(2,'0'));
             var dateStr = now.toLocaleDateString('id-ID', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
             var timeStr = now.toLocaleTimeString('id-ID', { hour:'2-digit', minute:'2-digit' });
 
-            var rows = cart.map(function (item) {
+            var rows = tx.cart.map(function (item) {
                 var sub = item.price * item.qty;
                 return '<tr>' +
                     '<td style="padding:4px 0">' + item.name + '</td>' +
@@ -305,8 +326,8 @@ function setupCheckout() {
                 '@media print{body{margin:0;padding:5px}}' +
                 '</style></head><body>' +
                 '<div class="center bold" style="font-size:16px">KIOS LILO</div>' +
-                '<div class="center" style="font-size:11px">Jl. Contoh No. 123, Kota</div>' +
-                '<div class="center" style="font-size:11px">Telp: 0812-3456-7890</div>' +
+                '<div class="center" style="font-size:11px">Pasar Muka Ramayana Cianjur, Lantai Dasar, Blok D No. 23</div>' +
+                '<div class="center" style="font-size:11px">Telp: 0819-1229-9111</div>' +
                 '<div class="line"></div>' +
                 '<div style="font-size:11px">No: ' + trxId + '</div>' +
                 '<div style="font-size:11px">Tanggal: ' + dateStr + '</div>' +
